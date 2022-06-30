@@ -29,6 +29,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.1.4",
     "pg": "^8.7.3",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
