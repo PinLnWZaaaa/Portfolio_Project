@@ -7,7 +7,7 @@ require('dotenv').config();
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: cookieExtractor,
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_SECRET,
     });
@@ -17,3 +17,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     return { userId: payload.sub, username: payload.username };
   }
 }
+
+let cookieExtractor = function (req) {
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies['token'];
+  }
+  return token.access_token;
+};
