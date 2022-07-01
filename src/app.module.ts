@@ -28,6 +28,7 @@ const connectionOptions = PostgressConnectionStringParser.parse(
       database: connectionOptions.database,
       entities: [join(__dirname, '**/*.entity.{ts,js}')],
       synchronize: true, // auto migration when schema is changed
+      ssl: true,
     }),
     AuthModule,
     UsersModule,
