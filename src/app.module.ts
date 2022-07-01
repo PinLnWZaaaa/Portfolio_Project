@@ -8,17 +8,24 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config();
+import * as PostgressConnectionStringParser from 'pg-connection-string';
+
+const connectionOptions = PostgressConnectionStringParser.parse(
+  process.env.DATABASE_URL,
+);
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT), // same as docker container
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      host: connectionOptions.host,
+      port: Number(connectionOptions.port) || 5432,
+      username: connectionOptions.user,
+      password: connectionOptions.password,
+      database: connectionOptions.database,
       entities: [join(__dirname, '**/*.entity.{ts,js}')],
       synchronize: true, // auto migration when schema is changed
     }),
