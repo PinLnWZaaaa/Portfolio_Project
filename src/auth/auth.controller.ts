@@ -3,9 +3,9 @@ import {
   Request,
   Post,
   UseGuards,
+  Response,
   HttpCode,
   Body,
-  Response,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
@@ -36,5 +36,16 @@ export class AuthController {
         httpOnly: true,
       })
       .json({ message: 'Login successfully' });
+  }
+
+  // ---------------------- Logout User ----------------------
+  @Post('logout')
+  async logout(@Response() res) {
+    res
+      .clearCookie('token', {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+      })
+      .json({ message: 'Logout successfully' }); //after 7 days
   }
 }
