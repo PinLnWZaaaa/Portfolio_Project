@@ -3,8 +3,9 @@ import {
   Request,
   Post,
   UseGuards,
+  HttpCode,
+  Body,
   Response,
-  Options,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
@@ -12,9 +13,18 @@ import { Public } from 'src/decorator/public.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
+  // ---------------------- Signup User ----------------------
   @Public()
+  @HttpCode(201)
+  @Post('signup')
+  async signupUser(@Body() data: any) {
+    const message = await this.authService.signupUser(data);
+    return { message: message };
+  }
+
+  // ---------------------- Login User ----------------------
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   async login(@Request() req, @Response() res) {
