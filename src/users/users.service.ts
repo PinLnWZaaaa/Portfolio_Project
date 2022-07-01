@@ -28,7 +28,7 @@ export class UsersService {
       data.password = await bcrypt.hash(data.password, salt);
       const newUser = { ...new User(), ...data };
       await this.usersRespository.save(newUser);
-      return 'Signup successfully';
+      return newUser;
     } catch (err) {
       console.log(`Cannot signup user. error=${err}`);
       throw err;

@@ -6,6 +6,7 @@ import {
   Response,
   HttpCode,
   Body,
+  Get,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
@@ -19,12 +20,20 @@ export class AuthController {
   @Public()
   @HttpCode(201)
   @Post('signup')
-  async signupUser(@Body() data: any) {
-    const message = await this.authService.signupUser(data);
-    return { message: message };
+  async signupUser(@Body() data: any, @Response() res) {
+    const user = await this.authService.signupUser(data);
+    const token = await this.authService.login(user);
+    res
+      .status(200)
+      .cookie('token', token, {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+      })
+      .json({ message: 'Signup successfully' });
   }
 
   // ---------------------- Login User ----------------------
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   async login(@Request() req, @Response() res) {
@@ -39,7 +48,7 @@ export class AuthController {
   }
 
   // ---------------------- Logout User ----------------------
-  @Post('logout')
+  @Get('logout')
   async logout(@Response() res) {
     res
       .clearCookie('token', {
