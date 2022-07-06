@@ -16,8 +16,6 @@ const connectionOptions = PostgressConnectionStringParser.parse(
   process.env.DATABASE_URL,
 );
 
-console.log(Boolean(process.env.ENABLE_SSL));
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
