@@ -3,9 +3,14 @@ import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { users } from '../db';
+import { FindUserResponseDto } from './dto/users.dto';
 
 @Injectable()
 export class UsersService {
+
+  private users = users
+
   constructor(
     @InjectRepository(User) private readonly usersRespository: Repository<User>,
   ) {}
@@ -40,4 +45,10 @@ export class UsersService {
       throw err;
     }
   }
+
+  getUserById(userId: string): FindUserResponseDto {
+    return this.users.find(user => {
+        return user.id === userId
+    })
+}
 }
