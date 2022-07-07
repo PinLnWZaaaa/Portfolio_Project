@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
+import { Skill } from './skill.entity';
+import { Workshop } from './workshop.entity';
 
 @Unique(['username'])
 @Entity()
@@ -29,4 +37,10 @@ export class User {
 
   @Column()
   twitter: string;
+
+  @OneToMany(() => Skill, (skill) => skill.user)
+  skills: Skill[];
+
+  @OneToMany(() => Workshop, (workshop) => workshop.user)
+  workshops: Workshop[];
 }
