@@ -17,4 +17,16 @@ export class User {
 
   @Column()
   interest: string;
+
+  @Column()
+  linkedIn: string;
+
+  @Column()
+  facebook: string;
+
+  @Column()
+  instagram: string;
+
+  @Column()
+  twitter: string;
 }
