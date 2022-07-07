@@ -9,6 +9,7 @@ import { IsEmail, IsDate, Min } from 'class-validator';
 import { Skill } from './skill.entity';
 import { Workshop } from './workshop.entity';
 import { Experience } from './experience.entity';
+import { IsDate, Min, Length } from 'class-validator';
 
 @Entity()
 export class User {
@@ -65,14 +66,14 @@ export class User {
   @Column()
   name_th: string;
 
-  @Column()
-  surname_th: string;
+  @Column({ name: 'surname_th' })
+  surnameTh: string;
 
-  @Column()
-  name_en: string;
+  @Column({ name: 'name_en' })
+  nameEn: string;
 
-  @Column()
-  surname_en: string;
+  @Column({ name: 'surname_en' })
+  surnameEn: string;
 
   @Column()
   nickname: string;
@@ -87,7 +88,8 @@ export class User {
   @Column()
   major: string;
 
-  @Column({ length: 10 })
+  @Column()
+  @Length(10, 10)
   student_ID: string;
 
   @Column({
@@ -97,9 +99,9 @@ export class User {
   position: string;
 
   @Column({
+    default: 0,
     nullable: false,
-    default: '0',
   })
-  @Min(0)
+  @Min(0.0)
   compensation_rate: number;
 }
