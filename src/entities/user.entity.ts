@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
-import { Length, IsEmail, IsInt } from 'class-validator';
+import { IsEmail, IsDate, Min } from 'class-validator';
 import { Skill } from './skill.entity';
 import { Workshop } from './workshop.entity';
 import { Experience } from './experience.entity';
@@ -60,4 +60,46 @@ export class User {
 
   @Column()
   line_ID: string;
+
+  //User's personal info
+  @Column()
+  name_th: string;
+
+  @Column()
+  surname_th: string;
+
+  @Column()
+  name_en: string;
+
+  @Column()
+  surname_en: string;
+
+  @Column()
+  nickname: string;
+
+  @Column()
+  @IsDate()
+  birthdate: Date;
+
+  @Column()
+  faculty: string;
+
+  @Column()
+  major: string;
+
+  @Column({ length: 10 })
+  student_ID: string;
+
+  @Column({
+    default: 'staff',
+    nullable: false,
+  })
+  position: string;
+
+  @Column({
+    nullable: false,
+    default: '0',
+  })
+  @Min(0)
+  compensation_rate: number;
 }
