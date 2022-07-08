@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Skill } from './skill.entity';
 import { Workshop } from './workshop.entity';
+import { Experience } from './experience.entity';
 
 @Unique(['username'])
 @Entity()
@@ -43,4 +44,7 @@ export class User {
 
   @OneToMany(() => Workshop, (workshop) => workshop.user)
   workshops: Workshop[];
+
+  @OneToMany(() => Experience, (experience) => experience.user)
+  experiences: Experience[];
 }
