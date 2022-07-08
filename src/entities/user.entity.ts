@@ -1,15 +1,8 @@
-import {
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  Unique,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IsEmail, IsDate, Min } from 'class-validator';
 import { Skill } from './skill.entity';
 import { Workshop } from './workshop.entity';
 import { Experience } from './experience.entity';
-import { IsDate, Min, Length } from 'class-validator';
 
 @Entity()
 export class User {
@@ -66,14 +59,14 @@ export class User {
   @Column()
   name_th: string;
 
-  @Column({ name: 'surname_th' })
-  surnameTh: string;
+  @Column()
+  surname_th: string;
 
-  @Column({ name: 'name_en' })
-  nameEn: string;
+  @Column()
+  name_en: string;
 
-  @Column({ name: 'surname_en' })
-  surnameEn: string;
+  @Column()
+  surname_en: string;
 
   @Column()
   nickname: string;
