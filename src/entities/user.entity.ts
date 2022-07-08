@@ -10,13 +10,12 @@ import { Skill } from './skill.entity';
 import { Workshop } from './workshop.entity';
 import { Experience } from './experience.entity';
 
-@Unique(['username'])
 @Entity()
 export class User {
   @PrimaryGeneratedColumn() // primary key
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   username: string;
 
   @Column()
@@ -49,7 +48,7 @@ export class User {
   @OneToMany(() => Experience, (experience) => experience.user)
   experiences: Experience[];
 
-  @Column()
+  @Column({ unique: true })
   @IsEmail()
   email: string;
 
