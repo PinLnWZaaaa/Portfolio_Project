@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
+import { Length, IsEmail, IsInt } from 'class-validator';
 import { Skill } from './skill.entity';
 import { Workshop } from './workshop.entity';
 import { Experience } from './experience.entity';
@@ -47,4 +48,17 @@ export class User {
 
   @OneToMany(() => Experience, (experience) => experience.user)
   experiences: Experience[];
+
+  @Column()
+  @IsEmail()
+  email: string;
+
+  @Column({
+    length: 10,
+    unique: true,
+  })
+  phone_no: string;
+
+  @Column()
+  line_ID: string;
 }
