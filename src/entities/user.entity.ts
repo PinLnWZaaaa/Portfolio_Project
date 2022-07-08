@@ -88,8 +88,7 @@ export class User {
   @Column()
   major: string;
 
-  @Column()
-  @Length(10, 10)
+  @Column({ length: 10 })
   student_ID: string;
 
   @Column({
