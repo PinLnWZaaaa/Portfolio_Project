@@ -1,17 +1,17 @@
-import { UsersService } from './users.service';
 import { Controller, Get, Param } from '@nestjs/common';
+import { UsersService } from './users.service';
 import { FindUserResponseDto } from './dto/users.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private userService: UsersService) {}
+  constructor(private usersService: UsersService) {}
   @Get()
   async getAllUsers() {
-    return { data: await this.userService.findAll() };
+    return { data: await this.usersService.findAll() };
   }
 
   @Get('/:userId')
-  getUserById(@Param('userId') userId: string): FindUserResponseDto {
-    return this.userService.getUserById(userId);
+  getUserById(@Param('userId') id: number) {
+    return this.usersService.getUserById(id);
   }
 }
