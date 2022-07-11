@@ -10,6 +10,20 @@ export class UsersService {
     @InjectRepository(User) private readonly usersRespository: Repository<User>,
   ) {}
 
+  async getUserById(id: number): Promise<User> {
+    try {
+      const user = await this.usersRespository.findOneBy({ id: id });
+
+      if (!user) {
+        throw new BadRequestException("User does not exist")
+      }
+
+      return user;
+    } catch (err) {
+        throw err;
+    }
+  }
+
   async findUserByUsername(username: string) {
     return await this.usersRespository.findOneBy({ username: username });
   }
