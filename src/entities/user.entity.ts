@@ -15,22 +15,22 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   career_path: string;
 
-  @Column()
+  @Column({ nullable: true })
   interest: string;
 
-  @Column()
+  @Column({ nullable: true })
   linkedIn: string;
 
-  @Column()
+  @Column({ nullable: true })
   facebook: string;
 
-  @Column()
+  @Column({ nullable: true })
   instagram: string;
 
-  @Column()
+  @Column({ nullable: true })
   twitter: string;
 
   @OneToMany(() => Skill, (skill) => skill.user)
@@ -42,46 +42,47 @@ export class User {
   @OneToMany(() => Experience, (experience) => experience.user)
   experiences: Experience[];
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   @IsEmail()
   email: string;
 
   @Column({
     length: 10,
     unique: true,
+    nullable: true,
   })
   phone_no: string;
 
-  @Column()
+  @Column({ nullable: true })
   line_ID: string;
 
   //User's personal info
-  @Column()
+  @Column({ nullable: true })
   name_th: string;
 
-  @Column()
+  @Column({ nullable: true })
   surname_th: string;
 
-  @Column()
+  @Column({ nullable: true })
   name_en: string;
 
-  @Column()
+  @Column({ nullable: true })
   surname_en: string;
 
-  @Column()
+  @Column({ nullable: true })
   nickname: string;
 
-  @Column()
+  @Column({ nullable: true })
   @IsDate()
   birthdate: Date;
 
-  @Column()
+  @Column({ nullable: true })
   faculty: string;
 
-  @Column()
+  @Column({ nullable: true })
   major: string;
 
-  @Column({ length: 10 })
+  @Column({ length: 10, nullable: true })
   student_ID: string;
 
   @Column({
