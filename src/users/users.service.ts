@@ -12,7 +12,7 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     return await this.usersRespository.find({
-      select: ['nickname', 'position', 'email'],
+      select: ['id', 'nickname', 'position', 'email'],
     });
   }
 
