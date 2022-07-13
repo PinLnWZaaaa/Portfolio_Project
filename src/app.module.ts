@@ -42,7 +42,6 @@ const connectionOptions = PostgressConnectionStringParser.parse(
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
-    UsersService,
   ],
 })
 export class AppModule {}
