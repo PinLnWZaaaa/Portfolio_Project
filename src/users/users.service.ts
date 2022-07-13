@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { users } from '../db';
-import { FindUserResponseDto } from './dto/users.dto';
 
 @Injectable()
 export class UsersService {
