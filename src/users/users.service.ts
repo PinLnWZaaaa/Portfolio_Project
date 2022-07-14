@@ -21,7 +21,16 @@ export class UsersService {
 
   async getUserById(id: number): Promise<User> {
     try {
-      const user = await this.usersRespository.findOneBy({ id: id });
+      const user = await this.usersRespository.findOne({ 
+        where: {
+          id
+        },
+        relations: [
+          'skills',
+          'workshops',
+          'experiences'
+        ]
+       });
 
       if (!user) {
         throw new BadRequestException('User does not exist');
