@@ -11,6 +11,8 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 import * as PostgressConnectionStringParser from 'pg-connection-string';
+import { UsersController } from './users/users.controller';
+import { UsersService } from './users/users.service';
 
 const connectionOptions = PostgressConnectionStringParser.parse(
   process.env.DATABASE_URL,
@@ -33,7 +35,7 @@ const connectionOptions = PostgressConnectionStringParser.parse(
     AuthModule,
     UsersModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, UsersController],
   providers: [
     AppService,
     {

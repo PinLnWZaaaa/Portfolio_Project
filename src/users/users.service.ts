@@ -16,6 +16,27 @@ export class UsersService {
     });
   }
 
+  async getUserById(id: number): Promise<any> {
+    try {
+      const user = await this.usersRespository.findOne({
+        where: {
+          id,
+        },
+        relations: ['skills', 'workshops', 'experiences'],
+      });
+
+      if (!user) {
+        throw new BadRequestException('User does not exist');
+      }
+
+      const { password, ...result } = user;
+      return result;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+
   async findUserByUsername(username: string) {
     return await this.usersRespository.findOneBy({ username: username });
   }
