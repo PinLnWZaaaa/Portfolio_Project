@@ -3,11 +3,10 @@ import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { users } from '../db';
+
 
 @Injectable()
 export class UsersService {
-  private users = users;
 
   constructor(
     @InjectRepository(User) private readonly usersRespository: Repository<User>,
@@ -19,7 +18,7 @@ export class UsersService {
     });
   }
 
-  async getUserById(id: number): Promise<User> {
+  async getUserById(id: number): Promise<any> {
     try {
       const user = await this.usersRespository.findOne({ 
         where: {
@@ -36,7 +35,8 @@ export class UsersService {
         throw new BadRequestException('User does not exist');
       }
 
-      return user;
+      const { password, ...result } = user;
+      return result;
     } catch (err) {
       console.log(err);
       throw err;
