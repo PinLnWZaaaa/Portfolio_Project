@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -9,8 +9,14 @@ export class UsersController {
     return { data: await this.usersService.findAll() };
   }
 
+  @Get('/profile')
+  async getUserProfile(@Req() req: any) {
+    const userId = req.user.userId;
+    return { data: await this.usersService.getUserById(userId) };
+  }
+
   @Get('/:userId')
-  getUserById(@Param('userId') id: number) {
-    return this.usersService.getUserById(id);
+  async getUserById(@Param('userId') userId: number) {
+    return { data: await this.usersService.getUserById(userId) };
   }
 }
