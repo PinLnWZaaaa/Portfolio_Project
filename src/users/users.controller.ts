@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Req } from '@nestjs/common';
+import { Controller, Get, Param, Req, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -18,5 +18,10 @@ export class UsersController {
   @Get('/:userId')
   async getUserById(@Param('userId') userId: number) {
     return await this.usersService.getUserById(userId);
+  }
+
+  @Delete('/skills/:skillId')
+  async deleteSkill(@Param('skillId') skillId: number) {
+    return await this.usersService.deleteSkill(skillId);
   }
 }
