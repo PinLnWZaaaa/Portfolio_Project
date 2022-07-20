@@ -6,17 +6,17 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
   @Get()
   async getAllUsers() {
-    return { data: await this.usersService.findAll() };
+    return await this.usersService.findAll();
   }
 
   @Get('/profile')
   async getUserProfile(@Req() req: any) {
     const userId = req.user.userId;
-    return { data: await this.usersService.getUserById(userId) };
+    return await this.usersService.getUserById(userId);
   }
 
   @Get('/:userId')
   async getUserById(@Param('userId') userId: number) {
-    return { data: await this.usersService.getUserById(userId) };
+    return await this.usersService.getUserById(userId);
   }
 }
