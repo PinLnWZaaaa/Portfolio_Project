@@ -1,5 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
+import { Skill } from 'src/entities/skill.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
@@ -7,18 +8,19 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private readonly usersRespository: Repository<User>,
+    @InjectRepository(User) private readonly userRepo: Repository<User>,
+    @InjectRepository(Skill) private skillRepo: Repository<Skill>,
   ) {}
 
   async findAll(): Promise<User[]> {
-    return await this.usersRespository.find({
+    return await this.userRepo.find({
       select: ['id', 'nickname', 'position', 'email'],
     });
   }
 
   async getUserById(id: number): Promise<any> {
     try {
-      const user = await this.usersRespository.findOne({
+      const user = await this.userRepo.findOne({
         where: {
           id,
         },
@@ -38,12 +40,12 @@ export class UsersService {
   }
 
   async findUserByUsername(username: string) {
-    return await this.usersRespository.findOneBy({ username: username });
+    return await this.userRepo.findOneBy({ username: username });
   }
 
   async createUser(data: Omit<User, 'id'>) {
     try {
-      const user = await this.usersRespository.findOneBy({
+      const user = await this.userRepo.findOneBy({
         username: data.username,
       });
 
@@ -54,10 +56,27 @@ export class UsersService {
       const salt = await bcrypt.genSalt(12);
       data.password = await bcrypt.hash(data.password, salt);
       const newUser = { ...new User(), ...data };
-      await this.usersRespository.save(newUser);
+      await this.userRepo.save(newUser);
       return newUser;
     } catch (err) {
       console.log(`Cannot signup user. error=${err}`);
+      throw err;
+    }
+  }
+
+  async deleteSkill(skillId: number) {
+    try {
+      const result = await this.skillRepo.delete(skillId);
+
+      if (result.affected === 0) {
+        throw new BadRequestException('Skill not found');
+      }
+
+      return {
+        message: "User's skill was deleted",
+      };
+    } catch (err) {
+      console.log(err);
       throw err;
     }
   }

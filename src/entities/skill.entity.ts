@@ -17,6 +17,6 @@ export class Skill {
   })
   level: skilllevel;
 
-  @ManyToOne(() => User, (user) => user.skills)
+  @ManyToOne(() => User, (user) => user.skills, {onDelete: 'CASCADE'})
   user: User;
 }
