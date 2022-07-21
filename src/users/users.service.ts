@@ -1,6 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { Skill } from 'src/entities/skill.entity';
+import { Workshop } from 'src/entities/workshop.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
@@ -10,6 +11,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepo: Repository<User>,
     @InjectRepository(Skill) private skillRepo: Repository<Skill>,
+    @InjectRepository(Workshop) private workshopRepo: Repository<Workshop>
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -74,6 +76,23 @@ export class UsersService {
 
       return {
         message: "User's skill was deleted",
+      };
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+
+  async deleteWorkshop(workshopId: number) {
+    try {
+      const result = await this.workshopRepo.delete(workshopId);
+
+      if (result.affected === 0) {
+        throw new BadRequestException('Workshop not found');
+      }
+
+      return {
+        message: "User's workshop was deleted"
       };
     } catch (err) {
       console.log(err);
