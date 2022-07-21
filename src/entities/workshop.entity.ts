@@ -12,6 +12,6 @@ export class Workshop {
   @Column()
   description: string;
 
-  @ManyToOne(() => User, (user) => user.workshops)
+  @ManyToOne(() => User, (user) => user.workshops, {onDelete: 'CASCADE'})
   user: User;
 }

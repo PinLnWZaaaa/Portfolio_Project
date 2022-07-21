@@ -24,4 +24,9 @@ export class UsersController {
   async deleteSkill(@Param('skillId') skillId: number) {
     return await this.usersService.deleteSkill(skillId);
   }
+
+  @Delete('/workshops/:workshopId')
+  async deleteWorkshop(@Param('workshopId') workshopId: number) {
+    return await this.usersService.deleteWorkshop(workshopId);
+  }
 }
