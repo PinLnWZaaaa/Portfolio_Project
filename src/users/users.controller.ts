@@ -8,6 +8,7 @@ import {
   Body,
 } from '@nestjs/common';
 import { Experience } from 'src/entities/experience.entity';
+import { Skill } from 'src/entities/skill.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -45,6 +46,15 @@ export class UsersController {
     const experienceId = await this.usersService.createExperience(data, userId);
     return {
       id: experienceId,
+    };
+  }
+
+  @Post('/skills')
+  async createSkill(@Body() data: Skill, @Req() req) {
+    const userId = req.user.userId;
+    const skillId = await this.usersService.createSkill(data, userId);
+    return {
+      id: skillId,
     };
   }
 }
