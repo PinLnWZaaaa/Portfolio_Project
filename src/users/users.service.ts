@@ -125,4 +125,25 @@ export class UsersService {
       throw err;
     }
   }
+
+  async createSkill(data: Skill, userId) {
+    try {
+      const { name, level } = data;
+      const newSkill = this.skillRepo.create({
+        name,
+        level,
+      });
+
+      const userLink = await this.userRepo.findOneBy({
+        id: userId,
+      });
+      newSkill.user = userLink;
+      await this.skillRepo.save(newSkill);
+
+      return newSkill.id;
+    } catch (err) {
+      console.log(`Cannot crate skill. error=${err}`);
+      throw err;
+    }
+  }
 }
