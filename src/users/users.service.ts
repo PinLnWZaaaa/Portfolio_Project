@@ -5,13 +5,16 @@ import { Workshop } from 'src/entities/workshop.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { Experience } from 'src/entities/experience.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepo: Repository<User>,
     @InjectRepository(Skill) private skillRepo: Repository<Skill>,
-    @InjectRepository(Workshop) private workshopRepo: Repository<Workshop>
+    @InjectRepository(Workshop) private workshopRepo: Repository<Workshop>,
+    @InjectRepository(Experience)
+    private experienceRepo: Repository<Experience>,
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -92,10 +95,33 @@ export class UsersService {
       }
 
       return {
-        message: "User's workshop was deleted"
+        message: "User's workshop was deleted",
       };
     } catch (err) {
       console.log(err);
+      throw err;
+    }
+  }
+
+  async createExperience(data: Experience, userId) {
+    try {
+      const { name, description, role, position } = data;
+      const newExp = this.experienceRepo.create({
+        name,
+        description,
+        role,
+        position,
+      });
+
+      const userLink = await this.userRepo.findOneBy({
+        id: userId,
+      });
+      newExp.user = userLink;
+      await this.experienceRepo.save(newExp);
+
+      return newExp.id;
+    } catch (err) {
+      console.log(`Cannot crate experience. error=${err}`);
       throw err;
     }
   }
