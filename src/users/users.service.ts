@@ -163,4 +163,25 @@ export class UsersService {
       throw err;
     }
   }
+
+  async createWorkshop(data: Workshop, userId) {
+    try {
+      const { name, description } = data;
+      const newWorkshop = this.workshopRepo.create({
+        name,
+        description,
+      });
+
+      const userLink = await this.userRepo.findOneBy({
+        id: userId,
+      });
+      newWorkshop.user = userLink;
+      await this.workshopRepo.save(newWorkshop);
+
+      return newWorkshop.id;
+    } catch (err) {
+      console.log(`Cannot crate workshop. error=${err}`);
+      throw err;
+    }
+  }
 }

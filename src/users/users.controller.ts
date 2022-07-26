@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { Experience } from 'src/entities/experience.entity';
 import { Skill } from 'src/entities/skill.entity';
+import { Workshop } from 'src/entities/workshop.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -61,5 +62,14 @@ export class UsersController {
   @Delete('/experiences/:experienceId')
   async deleteExperience(@Param('experienceId') experienceId: number) {
     return await this.usersService.deleteExperience(experienceId);
+  }
+
+  @Post('/workshops')
+  async createWorkshop(@Body() data: Workshop, @Req() req) {
+    const userId = req.user.userId;
+    const workshopId = await this.usersService.createWorkshop(data, userId);
+    return {
+      id: workshopId,
+    };
   }
 }
