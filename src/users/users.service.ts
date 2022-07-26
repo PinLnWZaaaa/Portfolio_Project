@@ -2,10 +2,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { Skill } from 'src/entities/skill.entity';
 import { Workshop } from 'src/entities/workshop.entity';
+import { Experience } from 'src/entities/experience.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { Experience } from 'src/entities/experience.entity';
 
 @Injectable()
 export class UsersService {
@@ -143,6 +143,23 @@ export class UsersService {
       return newSkill.id;
     } catch (err) {
       console.log(`Cannot crate skill. error=${err}`);
+      throw err;
+    }
+  }
+
+  async deleteExperience(experienceId: number) {
+    try {
+      const result = await this.experienceRepo.delete(experienceId);
+
+      if (result.affected === 0) {
+        throw new BadRequestException('Experience not found');
+      }
+
+      return {
+        message: "User's experience was deleted",
+      };
+    } catch (err) {
+      console.log(err);
       throw err;
     }
   }

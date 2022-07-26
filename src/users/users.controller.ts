@@ -57,4 +57,9 @@ export class UsersController {
       id: skillId,
     };
   }
+
+  @Delete('/experiences/:experienceId')
+  async deleteExperience(@Param('experienceId') experienceId: number) {
+    return await this.usersService.deleteExperience(experienceId);
+  }
 }
