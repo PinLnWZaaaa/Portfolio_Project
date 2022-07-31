@@ -6,6 +6,7 @@ import {
   Delete,
   Post,
   Body,
+  Patch,
 } from '@nestjs/common';
 import { Experience } from 'src/entities/experience.entity';
 import { Skill } from 'src/entities/skill.entity';
@@ -71,5 +72,14 @@ export class UsersController {
     return {
       id: workshopId,
     };
+  }
+
+  @Patch('/skills/:skillId')
+  async updateSkill(
+    @Param('skillId') skillId: number,
+    @Body() data: Partial<Omit<Skill, 'id'>>,
+  ) {
+    await this.usersService.updateSkill(skillId, data);
+    return { message: "User's skill info was updated" };
   }
 }

@@ -4,7 +4,11 @@ import { Skill } from 'src/entities/skill.entity';
 import { Workshop } from 'src/entities/workshop.entity';
 import { Experience } from 'src/entities/experience.entity';
 import { Repository } from 'typeorm';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -182,6 +186,26 @@ export class UsersService {
     } catch (err) {
       console.log(`Cannot crate workshop. error=${err}`);
       throw err;
+    }
+  }
+
+  deleteProperty(data: any, propertyName: string) {
+    if (data.hasOwnProperty(propertyName)) {
+      delete data[propertyName];
+    }
+  }
+
+  async updateSkill(skillId: number, data: Partial<Omit<Skill, 'id'>>) {
+    try {
+      this.deleteProperty(data, 'id');
+      const skill = {
+        ...(await this.skillRepo.findOne({ where: { id: skillId } })),
+        ...data,
+      };
+      await this.skillRepo.save(skill);
+    } catch (err) {
+      console.log(err);
+      throw new InternalServerErrorException('Cannot update skill');
     }
   }
 }
