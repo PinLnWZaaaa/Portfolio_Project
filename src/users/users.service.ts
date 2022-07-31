@@ -193,11 +193,6 @@ export class UsersService {
       delete data[propertyName];
     }
   }
-  deleteProperty(data: any, propertyName: string) {
-    if (data.hasOwnProperty(propertyName)) {
-      delete data[propertyName];
-    }
-  }
 
   async updateWorkshop(
     workshopId: number,
