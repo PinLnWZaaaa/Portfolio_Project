@@ -73,13 +73,12 @@ export class UsersController {
       id: workshopId,
     };
   }
-
-  @Patch('/skills/:skillId')
-  async updateSkill(
-    @Param('skillId') skillId: number,
-    @Body() data: Partial<Omit<Skill, 'id'>>,
+  @Patch('/workshops/:workshopId')
+  async updateWorkshop(
+    @Param('workshopId') workshopId: number,
+    @Body() data: Partial<Omit<Workshop, 'id'>>,
   ) {
-    await this.usersService.updateSkill(skillId, data);
-    return { message: "User's skill info was updated" };
+    await this.usersService.updateWorkshop(workshopId, data);
+    return { message: "User's workshop info was updated" };
   }
 }
