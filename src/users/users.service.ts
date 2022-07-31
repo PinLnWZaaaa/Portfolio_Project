@@ -188,6 +188,11 @@ export class UsersService {
       throw err;
     }
   }
+  deleteProperty(data: any, propertyName: string) {
+    if (data.hasOwnProperty(propertyName)) {
+      delete data[propertyName];
+    }
+  }
 
   deleteProperty(data: any, propertyName: string) {
     if (data.hasOwnProperty(propertyName)) {
@@ -225,6 +230,25 @@ export class UsersService {
     } catch (err) {
       console.log(err);
       throw new InternalServerErrorException('Cannot update experience');
+    }
+  }
+
+  async updateUserInfo(
+    userId: number,
+    data: Partial<Omit<User, 'id' | 'password' | 'username'>>,
+  ) {
+    try {
+      for (const proper of ['id', 'password', 'username']) {
+        this.deleteProperty(data, proper);
+      }
+      const user = {
+        ...(await this.userRepo.findOne({ where: { id: userId } })),
+        ...data,
+      };
+      await this.userRepo.save(user);
+    } catch (err) {
+      console.log(err);
+      throw new InternalServerErrorException('Cannot update user info');
     }
   }
 }
