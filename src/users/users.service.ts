@@ -194,11 +194,6 @@ export class UsersService {
     }
   }
 
-  deleteProperty(data: any, propertyName: string) {
-    if (data.hasOwnProperty(propertyName)) {
-      delete data[propertyName];
-    }
-  }
   async updateWorkshop(
     workshopId: number,
     data: Partial<Omit<Workshop, 'id'>>,
