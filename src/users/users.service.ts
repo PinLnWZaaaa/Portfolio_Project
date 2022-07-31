@@ -194,18 +194,20 @@ export class UsersService {
       delete data[propertyName];
     }
   }
-
-  async updateSkill(skillId: number, data: Partial<Omit<Skill, 'id'>>) {
+  async updateWorkshop(
+    workshopId: number,
+    data: Partial<Omit<Workshop, 'id'>>,
+  ) {
     try {
       this.deleteProperty(data, 'id');
-      const skill = {
-        ...(await this.skillRepo.findOne({ where: { id: skillId } })),
+      const workshop = {
+        ...(await this.workshopRepo.findOne({ where: { id: workshopId } })),
         ...data,
       };
-      await this.skillRepo.save(skill);
+      await this.workshopRepo.save(workshop);
     } catch (err) {
       console.log(err);
-      throw new InternalServerErrorException('Cannot update skill');
+      throw new InternalServerErrorException('Cannot update workshop');
     }
   }
 }
