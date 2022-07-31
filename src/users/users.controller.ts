@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { Experience } from 'src/entities/experience.entity';
 import { Skill } from 'src/entities/skill.entity';
+import { User } from 'src/entities/user.entity';
 import { Workshop } from 'src/entities/workshop.entity';
 import { UsersService } from './users.service';
 
@@ -89,5 +90,15 @@ export class UsersController {
   ) {
     await this.usersService.updateExperience(experienceId, data);
     return { message: "User's experience info was updated" };
+  }
+
+  @Patch()
+  async updateUserInfo(
+    @Req() req,
+    @Body() data: Partial<Omit<User, 'id' | 'password' | 'username'>>,
+  ) {
+    const userId = req.user.userId;
+    await this.usersService.updateUserInfo(userId, data);
+    return { message: 'User info was updated' };
   }
 }
