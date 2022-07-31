@@ -210,4 +210,21 @@ export class UsersService {
       throw new InternalServerErrorException('Cannot update workshop');
     }
   }
+
+  async updateExperience(
+    experienceId: number,
+    data: Partial<Omit<Experience, 'id'>>,
+  ) {
+    try {
+      this.deleteProperty(data, 'id');
+      const experience = {
+        ...(await this.experienceRepo.findOne({ where: { id: experienceId } })),
+        ...data,
+      };
+      await this.experienceRepo.save(experience);
+    } catch (err) {
+      console.log(err);
+      throw new InternalServerErrorException('Cannot update experience');
+    }
+  }
 }

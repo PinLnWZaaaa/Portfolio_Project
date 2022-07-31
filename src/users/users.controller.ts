@@ -81,4 +81,13 @@ export class UsersController {
     await this.usersService.updateWorkshop(workshopId, data);
     return { message: "User's workshop info was updated" };
   }
+
+  @Patch('/experiences/:experienceId')
+  async updateExperience(
+    @Param('experienceId') experienceId: number,
+    @Body() data: Partial<Omit<Experience, 'id'>>,
+  ) {
+    await this.usersService.updateExperience(experienceId, data);
+    return { message: "User's experience info was updated" };
+  }
 }
