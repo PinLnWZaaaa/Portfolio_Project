@@ -11,12 +11,31 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepo: Repository<User>,
     @InjectRepository(Skill) private skillRepo: Repository<Skill>,
-    @InjectRepository(Workshop) private workshopRepo: Repository<Workshop>
+    @InjectRepository(Workshop) private workshopRepo: Repository<Workshop>,
   ) {}
 
-  async findAll(): Promise<User[]> {
+  /*async findAll(): Promise<User[]> {
+    return await this.userRepo.find({
+      select: ['username', 'nickname', 'position', 'email'],
+    });
+  }*/
+  async findAll(seachUser): Promise<User[]> {
+    if (seachUser.position != null) {
+      const positionFiler = seachUser.position;
+    }
+    if (seachUser.major != null) {
+      const majorFiler = seachUser.position;
+    }
+    if (seachUser.faculty != null) {
+      const facultyFiler = seachUser.position;
+    }
     return await this.userRepo.find({
       select: ['id', 'nickname', 'position', 'email'],
+      where: [
+        { position: 'positionFiler' },
+        { major: 'majorFiler ' },
+        { faculty: 'facultyFiler ' },
+      ],
     });
   }
 
@@ -92,7 +111,7 @@ export class UsersService {
       }
 
       return {
-        message: "User's workshop was deleted"
+        message: "User's workshop was deleted",
       };
     } catch (err) {
       console.log(err);
