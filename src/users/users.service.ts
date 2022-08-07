@@ -5,6 +5,7 @@ import { Workshop } from 'src/entities/workshop.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { getAllUserParam } from 'src/types/users.interface';
 
 @Injectable()
 export class UsersService {
@@ -19,23 +20,10 @@ export class UsersService {
       select: ['username', 'nickname', 'position', 'email'],
     });
   }*/
-  async findAll(seachUser): Promise<User[]> {
-    if (seachUser.position != null) {
-      const positionFiler = seachUser.position;
-    }
-    if (seachUser.major != null) {
-      const majorFiler = seachUser.position;
-    }
-    if (seachUser.faculty != null) {
-      const facultyFiler = seachUser.position;
-    }
+  async findMany(param: getAllUserParam): Promise<User[]> {
     return await this.userRepo.find({
       select: ['id', 'nickname', 'position', 'email'],
-      where: [
-        { position: 'positionFiler' },
-        { major: 'majorFiler ' },
-        { faculty: 'facultyFiler ' },
-      ],
+      where: [param],
     });
   }
 

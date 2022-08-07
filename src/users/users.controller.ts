@@ -1,15 +1,14 @@
 import { Controller, Get, Param, Req, Delete, Query } from '@nestjs/common';
+import { getAllUserParam } from 'src/types/users.interface';
 import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
   @Get()
-  /*async getAllUsers() {
-    return await this.usersService.findAll();
-  }*/
-  async getAllUsers(@Query() seachUser?: string) {
-    return await this.usersService.findAll(seachUser);
+  async getAllUsers(@Query() req: getAllUserParam) {
+    return await this.usersService.findMany(req);
+    // return req
   }
 
   @Get('/profile')
